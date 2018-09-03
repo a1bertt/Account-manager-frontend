@@ -6,8 +6,8 @@
       <label for="fname">First Name</label>
       <input type="text" id="fname" name="firstname" placeholder="Your first name.." v-model="Account.firstName">
 
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lastname" placeholder="Your last name.." v-model="Account.surname">
+      <label for="lname">Surname</label>
+      <input type="text" id="lname" name="surname" placeholder="Your surname.." v-model="Account.surname">
 
       <label for="accno">Account Number</label>
       <input type="text" id="accno" name="accountnumber" placeholder="Account number.." v-model="Account.accountNumber">

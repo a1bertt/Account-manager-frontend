@@ -2,7 +2,6 @@
   <div id="app">
     <NavigationBar/>
     <router-view/>
-    <background/>
   </div>
 
 </template>

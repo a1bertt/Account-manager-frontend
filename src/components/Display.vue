@@ -1,6 +1,6 @@
 <template>
   <div class = container>
-  <h1>Existing Accounts</h1><br><br><br>
+  <h1>Accounts</h1><br><br><br>
     <table class="=table table-striped table-borderes" id="user">
     <thead>
       <tr>
@@ -8,6 +8,7 @@
         <th>First name</th>
         <th>Surname</th>
         <th>Account Number</th>
+        <th>Options</th>
       </tr>
     </thead>
       <tbody>
@@ -17,12 +18,17 @@
         <td class="text-left">{{Display_alias.firstName}}</td>
         <td class="text-left">{{Display_alias.surname}}</td>
         <td class="text-left">{{Display_alias.accountNumber }}</td>
+
+
+          <b-button :variant="'primary'" :to="'/edit/' + Display_alias.id">Edit</b-button>
+        <b-button :variant="'danger'" @click="deleteAccount(Display_alias.id)">Delete</b-button>
       </tr>
       </tbody>
     </table>
     <router-link to="/Add">
       <input type="submit" value="Add User"/>
     </router-link>
+
   </div>
 </template>
 
@@ -40,16 +46,35 @@
         },
 
 
-        mounted() {
-              axios.get('http://localhost:8082/backend/all')
-                .then((response) => {
-                      console.log(response.data);
-                      this.Display = response.data;
-                })
-                .catch((error) =>{
-                  console.log(error);
-                });
-        }
+    methods:{
+      deleteAccount(id) {
+        axios.delete("http://localhost:8082/backend/delete/" + id).then(response => {
+          this.Display = response.data;
+          this.Display.forEach((Account, index) => {
+            if (Account.id === response.data.id) {
+              this.Display.splice(index, index)
+            }
+          })
+        }).catch(e => 1);
+        location.reload();
+      },
+      getUsers() {
+        axios.get('http://localhost:8082/backend/all')
+          .then((response) => {
+            console.log(response.data);
+            this.Display = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+
+    mounted() {
+      this.getUsers()
+    }
+
+
   }
 </script>
 
@@ -61,9 +86,9 @@
   }
 
 
-  #user tr:nth-child(even){background-color: #f2f2f2;}
+  #user tr:nth-child(even){background-color: antiquewhite;}
 
-  #user tr:hover {background-color: darkcyan;}
+  #user tr:hover {background-color: lightgoldenrodyellow;}
 
   #user td, #user th {
     border: 1px solid #ddd;
@@ -75,7 +100,7 @@
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: slategrey;
+    background-color: cornflowerblue;
     color: white;
   }
 
@@ -98,4 +123,8 @@
     background-color: #f2f2f2;
     padding: 20px;
   }
+  button{
+    margin: 5px;
+  }
+
 </style>
